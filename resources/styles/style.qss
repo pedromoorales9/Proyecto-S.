@@ -1,0 +1,90 @@
+/* Estilos generales para la aplicación */
+
+QMainWindow {
+    background-color: #F0F0F0;
+}
+
+QWidget {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 10pt;
+    color: #333333;
+}
+
+/* Barra de título y cabecera */
+QLabel#HeaderLabel {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    padding: 5px;
+}
+
+QFrame#HeaderFrame {
+    background-color: #0078D7;
+    min-height: 60px;
+}
+
+QFrame#NavigationFrame {
+    background-color: white;
+    border-right: 1px solid #E0E0E0;
+}
+
+/* Botones */
+QPushButton {
+    background-color: #F5F5F5;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    padding: 8px 15px;
+    color: #333333;
+}
+
+QPushButton:hover {
+    background-color: #E0E0E0;
+    border-color: #BBBBBB;
+}
+
+QPushButton:pressed {
+    background-color: #D0D0D0;
+}
+
+QPushButton:disabled {
+    background-color: #F8F8F8;
+    border-color: #DDDDDD;
+    color: #AAAAAA;
+}
+
+QPushButton#PrimaryButton {
+    background-color: #0078D7;
+    color: white;
+    border: none;
+}
+
+QPushButton#PrimaryButton:hover {
+    background-color: #005A9E;
+}
+
+QPushButton#PrimaryButton:pressed {
+    background-color: #004A83;
+}
+
+QPushButton#PrimaryButton:disabled {
+    background-color: #7FB5E6;
+}
+
+QPushButton#NavButton {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 14px;
+}
+
+QPushButton#NavButton:hover {
+    background-color: #F0F0F0;
+}
+
+QPushButton#NavButton:checked {
+    background-color: #E5F1FB;
+    color: #0078D7;
+    border-left: 3px solid #0078D7;
+}

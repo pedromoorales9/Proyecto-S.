@@ -1,0 +1,17 @@
+# Interfaz gráfica
+PyQt5==5.15.6
+PyQt5-Qt5==5.15.2
+PyQt5-sip==12.10.1
+
+# Peticiones HTTP
+requests==2.28.1
+urllib3==1.26.12
+
+# Autenticación Microsoft
+msal==1.20.0
+
+# Encriptación y seguridad
+pycryptodome==3.15.0
+
+# Utilidades
+python-dotenv==0.21.0

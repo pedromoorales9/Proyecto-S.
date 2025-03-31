@@ -1,0 +1,187 @@
+{
+  "business_central": {
+    "base_url": "https://api.businesscentral.dynamics.com",
+    "tenant_id": "00000000-0000-0000-0000-000000000000",
+    "client_id": "00000000-0000-0000-0000-000000000000",
+    "client_secret": "tu_secreto_aqui",
+    "company_id": "00000000-0000-0000-0000-000000000000",
+    "api_version": "v2.0",
+    "environment_name": "Production",
+    "timeout_seconds": 30,
+    "max_retries": 3,
+    "retry_delay_seconds": 2
+  },
+  "microsoft_graph": {
+    "base_url": "https://graph.microsoft.com/v1.0",
+    "tenant_id": "00000000-0000-0000-0000-000000000000",
+    "client_id": "00000000-0000-0000-0000-000000000000",
+    "client_secret": "tu_secreto_aqui",
+    "authority": "https://login.microsoftonline.com/{0}/v2.0",
+    "scopes": [
+      "https://graph.microsoft.com/.default",
+      "User.ReadWrite.All",
+      "Directory.ReadWrite.All",
+      "Organization.Read.All",
+      "Group.ReadWrite.All"
+    ],
+    "timeout_seconds": 30,
+    "max_retries": 3,
+    "retry_delay_seconds": 2
+  },
+  "app": {
+    "encryption_key": "una_clave_de_encriptacion_larga_generada_automaticamente",
+    "default_roles": [
+      {
+        "id": "BC_ADMIN",
+        "name": "Administrador",
+        "description": "Acceso completo a Business Central",
+        "is_selected": false
+      },
+      {
+        "id": "BC_FINANCE",
+        "name": "Finanzas",
+        "description": "Acceso a módulos financieros",
+        "is_selected": false
+      },
+      {
+        "id": "BC_SALES",
+        "name": "Ventas",
+        "description": "Acceso a módulos de ventas",
+        "is_selected": false
+      },
+      {
+        "id": "BC_PURCHASE",
+        "name": "Compras",
+        "description": "Acceso a módulos de compras",
+        "is_selected": false
+      },
+      {
+        "id": "BC_INVENTORY",
+        "name": "Inventario",
+        "description": "Acceso a módulos de inventario",
+        "is_selected": false
+      },
+      {
+        "id": "BC_PRODUCTION",
+        "name": "Producción",
+        "description": "Acceso a módulos de producción",
+        "is_selected": false
+      },
+      {
+        "id": "BC_PROJECTS",
+        "name": "Proyectos",
+        "description": "Acceso a módulos de proyectos",
+        "is_selected": false
+      },
+      {
+        "id": "BC_HR",
+        "name": "Recursos Humanos",
+        "description": "Acceso a módulos de RRHH",
+        "is_selected": false
+      },
+      {
+        "id": "BC_READONLY",
+        "name": "Solo Lectura",
+        "description": "Acceso de solo lectura a Business Central",
+        "is_selected": false
+      }
+    ],
+    "default_licenses": [
+      {
+        "id": "O365_BUSINESS_ESSENTIALS",
+        "name": "Microsoft 365 Business Basic",
+        "sku_id": "3b555118-da6a-4418-894f-7df1e2096870",
+        "description": "Email, calendario, teams, OneDrive",
+        "is_selected": false
+      },
+      {
+        "id": "O365_BUSINESS_PREMIUM",
+        "name": "Microsoft 365 Business Standard",
+        "sku_id": "f245ecc8-75af-4f8e-b61f-27d8114de5f3",
+        "description": "Email, Office, Teams, SharePoint",
+        "is_selected": false
+      },
+      {
+        "id": "SPB",
+        "name": "Microsoft 365 Business Premium",
+        "sku_id": "cbdc14ab-d96c-4c30-b9f4-6ada7cdc1d46",
+        "description": "Incluye seguridad y administración de dispositivos",
+        "is_selected": false
+      },
+      {
+        "id": "ENTERPRISEPACK",
+        "name": "Microsoft 365 E3",
+        "sku_id": "05e9a617-0261-4cee-bb44-138d3ef5d965",
+        "description": "Suite completa para empresas",
+        "is_selected": false
+      },
+      {
+        "id": "ENTERPRISEPREMIUM",
+        "name": "Microsoft 365 E5",
+        "sku_id": "06ebc4ee-1bb5-47dd-8120-11324bc54e06",
+        "description": "E3 + seguridad avanzada, análisis y voz",
+        "is_selected": false
+      },
+      {
+        "id": "POWER_BI_PRO",
+        "name": "Power BI Pro",
+        "sku_id": "f8a1db68-be16-40ed-86d5-cb42ce701560",
+        "description": "Análisis de datos interactivos",
+        "is_selected": false
+      },
+      {
+        "id": "DYNAMICS_365_ENTERPRISE_PLAN1", 
+        "name": "Dynamics 365 Customer Engagement Plan",
+        "sku_id": "ea126fc5-a19e-42e2-a731-da9d437bffcf",
+        "description": "CRM y herramientas de participación",
+        "is_selected": false
+      },
+      {
+        "id": "PROJECT_ONLINE_PLAN_1",
+        "name": "Project Plan 1",
+        "sku_id": "beb6d5f9-4b4b-4ae6-a77b-9a9bbefa7e9b",
+        "description": "Gestión de proyectos básica",
+        "is_selected": false
+      },
+      {
+        "id": "DYN365_BUSCENTRAL_ESSENTIAL",
+        "name": "Dynamics 365 Business Central Essential",
+        "sku_id": "8e7a3d30-d97d-43ab-837c-d7701cef83dc",
+        "description": "Business Central para usuarios comunes",
+        "is_selected": false
+      }
+    ],
+    "email_domain": "empresa.com",
+    "log_retention_days": 90,
+    "enable_detailed_logging": true,
+    "require_password_change": true,
+    "default_password": "Temporal2024!",
+    "password_policy": {
+      "min_length": 8,
+      "require_uppercase": true,
+      "require_lowercase": true,
+      "require_number": true,
+      "require_special_char": true
+    },
+    "user_naming_pattern": "{first_name}.{last_name}",
+    "email_settings": {
+      "send_welcome_email": true,
+      "email_template": "welcome_template.html",
+      "cc_admin": false,
+      "admin_email": "admin@empresa.com"
+    },
+    "ui_settings": {
+      "theme": "light",
+      "language": "es-ES",
+      "rows_per_page": 15,
+      "date_format": "DD/MM/YYYY",
+      "time_format": "HH:mm"
+    },
+    "security": {
+      "session_timeout_minutes": 30,
+      "max_failed_attempts": 5,
+      "lockout_duration_minutes": 15
+    },
+    "last_updated": "2023-05-11T15:30:45.123Z"
+  }
+}
