@@ -1,0 +1,15 @@
+2025-03-31 09:45:56,270 - main - INFO - Iniciando aplicación de Provisión de Usuarios
+2025-03-31 09:45:56,273 - UserProvisioningTool - INFO - Configuración cargada desde archivo por defecto
+2025-03-31 09:45:56,275 - UserProvisioningTool - INFO - Configuración guardada correctamente
+2025-03-31 10:02:49,344 - main - INFO - Iniciando aplicación de Provisión de Usuarios
+2025-03-31 10:02:49,362 - UserProvisioningTool - INFO - Configuración cargada desde archivo local
+2025-03-31 10:02:49,969 - UserProvisioningTool - ERROR - Error al cargar datos en la vista de creación de usuario
+Traceback (most recent call last):
+  File "C:\Users\PedroMoralesCalderín\Downloads\user_provisioning_tool\ui\user_creation.py", line 186, in load_data
+    self.main_window.update_status("Cargando datos...")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PedroMoralesCalderín\Downloads\user_provisioning_tool\ui\main_window.py", line 194, in update_status
+    self.status_bar.showMessage(message)
+    ^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'status_bar'. Did you mean: 'statusBar'?
+2025-03-31 10:02:50,009 - UserProvisioningTool - ERROR - Error al cargar datos: 'MainWindow' object has no attribute 'status_bar'

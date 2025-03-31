@@ -7,6 +7,7 @@ Vista de configuración de la aplicación.
 
 import asyncio
 import uuid
+from async_utils import run_async  # Añadir esta importación
 from PyQt5.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QCheckBox, 
     QPushButton, QTabWidget, QWidget, QGroupBox, QFormLayout, QListWidget, 
@@ -346,7 +347,7 @@ class ConfigurationView(QDialog):
             self.encryption_key_edit.setText(config["app"]["encryption_key"])
             
             # Cargar roles y licencias
-            asyncio.create_task(self.load_roles_and_licenses())
+            run_async(self.load_roles_and_licenses())  # MODIFICADO
             
         except Exception as e:
             self.logging_service.log_error("Error al cargar configuración", e)
@@ -491,7 +492,7 @@ class ConfigurationView(QDialog):
             )
         
         # Guardar rol
-        asyncio.create_task(self.do_save_role(role))
+        run_async(self.do_save_role(role))  # MODIFICADO
     
     def save_license(self):
         """Guardar licencia."""
@@ -517,7 +518,7 @@ class ConfigurationView(QDialog):
             )
         
         # Guardar licencia
-        asyncio.create_task(self.do_save_license(license_obj))
+        run_async(self.do_save_license(license_obj))  # MODIFICADO
     
     async def do_save_role(self, role):
         """
@@ -592,7 +593,7 @@ class ConfigurationView(QDialog):
         graph_service = MicrosoftGraphService(self.config_manager, self.logging_service)
         
         # Probar conexión
-        asyncio.create_task(self.do_test_graph_connection(graph_service))
+        run_async(self.do_test_graph_connection(graph_service))  # MODIFICADO
     
     @pyqtSlot()
     def test_bc_connection(self):
@@ -610,7 +611,7 @@ class ConfigurationView(QDialog):
         bc_service = BusinessCentralService(self.config_manager, self.logging_service)
         
         # Probar conexión
-        asyncio.create_task(self.do_test_bc_connection(bc_service))
+        run_async(self.do_test_bc_connection(bc_service))  # MODIFICADO
     
     async def do_test_graph_connection(self, graph_service):
         """

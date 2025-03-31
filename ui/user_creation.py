@@ -7,6 +7,7 @@ Vista de creación de usuarios.
 
 import re
 import asyncio
+from async_utils import run_async  # Añadir esta importación
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QCheckBox, 
     QPushButton, QScrollArea, QGroupBox, QGridLayout, QFormLayout, 
@@ -58,7 +59,7 @@ class UserCreationView(QWidget):
         # Cargar datos
         self.roles = []
         self.licenses = []
-        asyncio.create_task(self.load_data())
+        run_async(self.load_data())  # MODIFICADO
     
     def init_ui(self):
         """Inicializar interfaz de usuario."""
@@ -374,7 +375,21 @@ class UserCreationView(QWidget):
         user = self.build_user_object()
         
         # Crear usuario
-        asyncio.create_task(self.do_create_user(user))
+        run_async(self.do_create_user(user), callback=self.on_user_created, error_callback=self.on_user_error)  # MODIFICADO
+    
+    def on_user_created(self, user):
+        """Manejar la creación exitosa de un usuario."""
+        self.create_button.setEnabled(True)
+        self.main_window.show_success(f"Usuario {user.display_name} creado correctamente")
+        self.clear_form()
+        self.main_window.update_status("Usuario creado correctamente")
+    
+    def on_user_error(self, error):
+        """Manejar errores en la creación de un usuario."""
+        self.logging_service.log_error(f"Error al crear usuario: {str(error)}", error)
+        self.main_window.show_error(f"Error al crear usuario: {str(error)}")
+        self.main_window.update_status("Error al crear usuario")
+        self.create_button.setEnabled(True)
     
     def validate_input(self):
         """
@@ -502,33 +517,17 @@ class UserCreationView(QWidget):
         Args:
             user (User): Usuario a crear.
         """
-        try:
-            # Obtener contraseña
-            password = self.password_edit.text()
-            
-            # Crear usuario en Azure AD primero
-            await self.create_user_in_azure_ad(user, password)
-            
-            # Si está marcada la opción, sincronizar con Business Central
-            if self.sync_to_bc_check.isChecked():
-                await self.create_user_in_bc(user)
-            
-            # Mostrar mensaje de éxito
-            self.main_window.show_success(f"Usuario {user.display_name} creado correctamente")
-            
-            # Limpiar el formulario
-            self.clear_form()
-            
-            self.main_window.update_status("Usuario creado correctamente")
-            
-        except Exception as e:
-            self.logging_service.log_error(f"Error al crear usuario: {str(e)}", e)
-            self.main_window.show_error(f"Error al crear usuario: {str(e)}")
-            self.main_window.update_status("Error al crear usuario")
-            
-        finally:
-            # Volver a habilitar el botón
-            self.create_button.setEnabled(True)
+        # Obtener contraseña
+        password = self.password_edit.text()
+        
+        # Crear usuario en Azure AD primero
+        await self.create_user_in_azure_ad(user, password)
+        
+        # Si está marcada la opción, sincronizar con Business Central
+        if self.sync_to_bc_check.isChecked():
+            await self.create_user_in_bc(user)
+        
+        return user
     
     async def create_user_in_azure_ad(self, user, password):
         """

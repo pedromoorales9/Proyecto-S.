@@ -7,6 +7,7 @@ Vista de asignación de licencias.
 
 import asyncio
 import math
+from async_utils import run_async  # Añadir esta importación
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, 
     QListWidget, QListWidgetItem, QGroupBox, QScrollArea, QCheckBox,
@@ -55,7 +56,7 @@ class LicenseAssignmentView(QWidget):
         self.init_ui()
         
         # Cargar datos
-        asyncio.create_task(self.load_users())
+        run_async(self.load_users())  # MODIFICADO
     
     def init_ui(self):
         """Inicializar interfaz de usuario."""
@@ -342,7 +343,7 @@ class LicenseAssignmentView(QWidget):
     def search_users(self):
         """Buscar usuarios según el término de búsqueda."""
         search_term = self.search_edit.text().strip()
-        asyncio.create_task(self.load_users(search_term))
+        run_async(self.load_users(search_term))  # MODIFICADO
     
     def on_user_selected(self, current, previous):
         """
@@ -362,7 +363,7 @@ class LicenseAssignmentView(QWidget):
             self.user_department_label.setText(f"Departamento: {user.department or 'No especificado'}")
             
             # Cargar licencias del usuario
-            asyncio.create_task(self.load_user_licenses(user.azure_ad_id))
+            run_async(self.load_user_licenses(user.azure_ad_id))  # MODIFICADO
         else:
             self.selected_user = None
             self.user_name_label.setText("Seleccione un usuario")
@@ -419,7 +420,23 @@ class LicenseAssignmentView(QWidget):
                     licenses_to_remove.append(license_obj)
         
         # Ejecutar tarea asíncrona
-        asyncio.create_task(self.update_user_licenses(licenses_to_add, licenses_to_remove))
+        run_async(self.update_user_licenses(licenses_to_add, licenses_to_remove), callback=self.on_licenses_updated, error_callback=self.on_licenses_error)  # MODIFICADO
+    
+    def on_licenses_updated(self, _):
+        """Manejar la actualización exitosa de licencias."""
+        self.main_window.show_success("Licencias actualizadas correctamente")
+        self.main_window.update_status("Licencias actualizadas")
+        
+        # Recargar licencias del usuario
+        run_async(self.load_user_licenses(self.selected_user.azure_ad_id))  # MODIFICADO
+    
+    def on_licenses_error(self, error):
+        """Manejar errores en la actualización de licencias."""
+        self.logging_service.log_error(
+            f"Error al actualizar licencias del usuario: {self.selected_user.email}", error)
+        self.main_window.show_error(f"Error al actualizar licencias: {str(error)}")
+        self.main_window.update_status("Error al actualizar licencias")
+        self.save_button.setEnabled(True)
     
     async def update_user_licenses(self, licenses_to_add, licenses_to_remove):
         """
@@ -429,27 +446,14 @@ class LicenseAssignmentView(QWidget):
             licenses_to_add (List[License]): Licencias a añadir.
             licenses_to_remove (List[License]): Licencias a quitar.
         """
-        try:
-            # Añadir licencias
-            for license_obj in licenses_to_add:
-                await self.graph_service.assign_license_to_user(
-                    self.selected_user.azure_ad_id, license_obj.sku_id)
-            
-            # Quitar licencias
-            for license_obj in licenses_to_remove:
-                await self.graph_service.remove_license_from_user(
-                    self.selected_user.azure_ad_id, license_obj.sku_id)
-            
-            # Mensaje de éxito
-            self.main_window.show_success("Licencias actualizadas correctamente")
-            self.main_window.update_status("Licencias actualizadas")
-            
-            # Recargar licencias del usuario
-            await self.load_user_licenses(self.selected_user.azure_ad_id)
-            
-        except Exception as e:
-            self.logging_service.log_error(
-                f"Error al actualizar licencias del usuario: {self.selected_user.email}", e)
-            self.main_window.show_error(f"Error al actualizar licencias: {str(e)}")
-            self.main_window.update_status("Error al actualizar licencias")
-            self.save_button.setEnabled(True)
+        # Añadir licencias
+        for license_obj in licenses_to_add:
+            await self.graph_service.assign_license_to_user(
+                self.selected_user.azure_ad_id, license_obj.sku_id)
+        
+        # Quitar licencias
+        for license_obj in licenses_to_remove:
+            await self.graph_service.remove_license_from_user(
+                self.selected_user.azure_ad_id, license_obj.sku_id)
+        
+        return True

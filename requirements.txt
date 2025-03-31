@@ -6,6 +6,7 @@ PyQt5-sip==12.10.1
 # Peticiones HTTP
 requests==2.28.1
 urllib3==1.26.12
+aiohttp>=3.8.3
 
 # Autenticación Microsoft
 msal==1.20.0

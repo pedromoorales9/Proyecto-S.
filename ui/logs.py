@@ -8,6 +8,7 @@ Vista de logs del sistema.
 import os
 import asyncio
 import datetime
+from async_utils import run_async  # Añadir esta importación
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, 
     QTableWidget, QTableWidgetItem, QComboBox, QDateEdit,
@@ -38,7 +39,7 @@ class LogsView(QWidget):
         self.init_ui()
         
         # Cargar logs
-        asyncio.create_task(self.load_logs())
+        run_async(self.load_logs())  # MODIFICADO
     
     def init_ui(self):
         """Inicializar interfaz de usuario."""
@@ -219,7 +220,7 @@ class LogsView(QWidget):
     @pyqtSlot()
     def apply_filters(self):
         """Aplicar filtros y recargar logs."""
-        asyncio.create_task(self.load_logs())
+        run_async(self.load_logs())  # MODIFICADO
     
     @pyqtSlot()
     def clear_filters(self):
@@ -230,12 +231,12 @@ class LogsView(QWidget):
         self.end_date_edit.setDate(QDate.currentDate())
         
         # Recargar logs
-        asyncio.create_task(self.load_logs())
+        run_async(self.load_logs())  # MODIFICADO
     
     @pyqtSlot()
     def refresh_logs(self):
         """Refrescar logs."""
-        asyncio.create_task(self.load_logs())
+        run_async(self.load_logs())  # MODIFICADO
     
     @pyqtSlot()
     def clear_logs(self):
@@ -250,7 +251,7 @@ class LogsView(QWidget):
         )
         
         if response == QMessageBox.Yes:
-            asyncio.create_task(self.do_clear_logs())
+            run_async(self.do_clear_logs())  # MODIFICADO
     
     @pyqtSlot()
     def export_logs(self):
@@ -281,73 +282,8 @@ class LogsView(QWidget):
                     )
                 
                 # Exportar logs
-                asyncio.create_task(self.do_export_logs(file_path, start_date, end_date))
+                run_async(self.do_export_logs(file_path, start_date, end_date))  # MODIFICADO
                 
         except Exception as e:
             self.logging_service.log_error(f"Error al exportar logs: {str(e)}", e)
             self.main_window.show_error(f"Error al exportar logs: {str(e)}")
-    
-    async def do_clear_logs(self):
-        """Realizar la limpieza de logs."""
-        try:
-            # Actualizar estado
-            self.main_window.update_status("Limpiando logs...")
-            
-            # Limpiar logs
-            await self.logging_service.clear_logs()
-            
-            # Recargar logs
-            await self.load_logs()
-            
-            # Mensaje de éxito
-            self.main_window.show_success("Los logs han sido limpiados correctamente")
-            
-        except Exception as e:
-            self.logging_service.log_error(f"Error al limpiar logs: {str(e)}", e)
-            self.main_window.show_error(f"Error al limpiar logs: {str(e)}")
-            self.main_window.update_status("Error al limpiar logs")
-    
-    async def do_export_logs(self, file_path, start_date, end_date):
-        """
-        Realizar la exportación de logs.
-        
-        Args:
-            file_path (str): Ruta del archivo de destino.
-            start_date (datetime): Fecha de inicio para filtrar.
-            end_date (datetime): Fecha de fin para filtrar.
-        """
-        try:
-            # Actualizar estado
-            self.main_window.update_status("Exportando logs...")
-            
-            # Exportar logs
-            result_path = await self.logging_service.export_logs(
-                file_path=file_path,
-                start_date=start_date,
-                end_date=end_date
-            )
-            
-            # Actualizar estado
-            self.main_window.update_status("Logs exportados correctamente")
-            
-            # Preguntar si desea abrir el archivo
-            response = QMessageBox.question(
-                self,
-                "Exportación completada",
-                "Los logs han sido exportados correctamente. ¿Desea abrir el archivo?",
-                QMessageBox.Yes | QMessageBox.No,
-                QMessageBox.Yes
-            )
-            
-            if response == QMessageBox.Yes:
-                # Abrir archivo con la aplicación predeterminada
-                if os.name == 'nt':  # Windows
-                    os.startfile(result_path)
-                elif os.name == 'posix':  # macOS/Linux
-                    import subprocess
-                    subprocess.call(('xdg-open', result_path))
-            
-        except Exception as e:
-            self.logging_service.log_error(f"Error al exportar logs: {str(e)}", e)
-            self.main_window.show_error(f"Error al exportar logs: {str(e)}")
-            self.main_window.update_status("Error al exportar logs")
