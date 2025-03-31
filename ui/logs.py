@@ -8,7 +8,7 @@ Vista de logs del sistema.
 import os
 import asyncio
 import datetime
-from async_utils import run_async  # Añadir esta importación
+from async_utils import run_async
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, 
     QTableWidget, QTableWidgetItem, QComboBox, QDateEdit,
@@ -39,7 +39,7 @@ class LogsView(QWidget):
         self.init_ui()
         
         # Cargar logs
-        run_async(self.load_logs())  # MODIFICADO
+        run_async(self.load_logs())
     
     def init_ui(self):
         """Inicializar interfaz de usuario."""
@@ -220,7 +220,7 @@ class LogsView(QWidget):
     @pyqtSlot()
     def apply_filters(self):
         """Aplicar filtros y recargar logs."""
-        run_async(self.load_logs())  # MODIFICADO
+        run_async(self.load_logs())
     
     @pyqtSlot()
     def clear_filters(self):
@@ -231,12 +231,12 @@ class LogsView(QWidget):
         self.end_date_edit.setDate(QDate.currentDate())
         
         # Recargar logs
-        run_async(self.load_logs())  # MODIFICADO
+        run_async(self.load_logs())
     
     @pyqtSlot()
     def refresh_logs(self):
         """Refrescar logs."""
-        run_async(self.load_logs())  # MODIFICADO
+        run_async(self.load_logs())
     
     @pyqtSlot()
     def clear_logs(self):
@@ -251,7 +251,17 @@ class LogsView(QWidget):
         )
         
         if response == QMessageBox.Yes:
-            run_async(self.do_clear_logs())  # MODIFICADO
+            run_async(self.do_clear_logs())
+    
+    async def do_clear_logs(self):
+        """Realizar limpieza de logs de forma asíncrona."""
+        try:
+            await self.logging_service.clear_logs()
+            self.main_window.show_success("Logs limpiados correctamente")
+            # Recargar logs
+            await self.load_logs()
+        except Exception as e:
+            self.main_window.show_error(f"Error al limpiar logs: {str(e)}")
     
     @pyqtSlot()
     def export_logs(self):
@@ -282,8 +292,23 @@ class LogsView(QWidget):
                     )
                 
                 # Exportar logs
-                run_async(self.do_export_logs(file_path, start_date, end_date))  # MODIFICADO
+                run_async(self.do_export_logs(file_path, start_date, end_date))
                 
         except Exception as e:
             self.logging_service.log_error(f"Error al exportar logs: {str(e)}", e)
+            self.main_window.show_error(f"Error al exportar logs: {str(e)}")
+    
+    async def do_export_logs(self, file_path, start_date, end_date):
+        """
+        Exportar logs de forma asíncrona.
+        
+        Args:
+            file_path (str): Ruta del archivo a exportar.
+            start_date (datetime, optional): Fecha de inicio de filtro.
+            end_date (datetime, optional): Fecha de fin de filtro.
+        """
+        try:
+            exported_path = await self.logging_service.export_logs(file_path, start_date, end_date)
+            self.main_window.show_success(f"Logs exportados a {exported_path}")
+        except Exception as e:
             self.main_window.show_error(f"Error al exportar logs: {str(e)}")

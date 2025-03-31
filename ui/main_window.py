@@ -64,15 +64,14 @@ class MainWindow(QMainWindow):
         self.header_frame.setObjectName("HeaderFrame")
         self.header_layout = QHBoxLayout(self.header_frame)
         
-        # Logo o ícono en la cabecera
+        # Logo
         icon_path = os.path.join("resources", "icons", "app_icon.ico")
-        if os.path.exists(icon_path):
-            self.logo_label = QLabel()
-            pixmap = QPixmap(icon_path)
-            self.logo_label.setPixmap(pixmap.scaled(32, 32, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-            self.header_layout.addWidget(self.logo_label)
+        logo_label = QLabel()
+        logo_pixmap = QPixmap(icon_path) if os.path.exists(icon_path) else QPixmap()
+        logo_label.setPixmap(logo_pixmap.scaled(32, 32, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        self.header_layout.addWidget(logo_label)
         
-        # Título en la cabecera
+        # Título
         self.title_label = QLabel("Herramienta de Provisión de Usuarios")
         self.title_label.setObjectName("HeaderLabel")
         self.header_layout.addWidget(self.title_label)
@@ -145,9 +144,7 @@ class MainWindow(QMainWindow):
         self.main_layout.addLayout(self.content_layout)
         
         # Barra de estado
-        self.status_bar = QStatusBar()
-        self.setStatusBar(self.status_bar)
-        self.status_bar.showMessage("Listo")
+        self.statusBar().showMessage("Listo")
         
         # Seleccionar vista predeterminada
         self.switch_view(0)
@@ -191,7 +188,7 @@ class MainWindow(QMainWindow):
         Args:
             message (str): Mensaje a mostrar.
         """
-        self.status_bar.showMessage(message)
+        self.statusBar().showMessage(message)
     
     def show_error(self, message):
         """

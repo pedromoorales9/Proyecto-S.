@@ -13,3 +13,26 @@ Traceback (most recent call last):
     ^^^^^^^^^^^^^^^
 AttributeError: 'MainWindow' object has no attribute 'status_bar'. Did you mean: 'statusBar'?
 2025-03-31 10:02:50,009 - UserProvisioningTool - ERROR - Error al cargar datos: 'MainWindow' object has no attribute 'status_bar'
+2025-03-31 10:05:17,572 - main - INFO - Iniciando aplicación de Provisión de Usuarios
+2025-03-31 10:05:17,573 - UserProvisioningTool - INFO - Configuración cargada desde archivo local
+2025-03-31 10:05:17,960 - UserProvisioningTool - ERROR - Error al cargar datos en la vista de creación de usuario
+Traceback (most recent call last):
+  File "C:\Users\PedroMoralesCalderín\Downloads\user_provisioning_tool\ui\user_creation.py", line 186, in load_data
+    self.main_window.update_status("Cargando datos...")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PedroMoralesCalderín\Downloads\user_provisioning_tool\ui\main_window.py", line 194, in update_status
+    self.status_bar.showMessage(message)
+    ^^^^^^^^^^^^^^^
+AttributeError: 'MainWindow' object has no attribute 'status_bar'. Did you mean: 'statusBar'?
+2025-03-31 10:05:17,979 - UserProvisioningTool - ERROR - Error al cargar datos: 'MainWindow' object has no attribute 'status_bar'
+2025-03-31 10:10:14,636 - main - INFO - Iniciando aplicación de Provisión de Usuarios
+2025-03-31 10:10:14,638 - UserProvisioningTool - INFO - Configuración cargada desde archivo local
+2025-03-31 10:10:15,754 - UserProvisioningTool - ERROR - Error al obtener usuarios de Azure AD: 401 - {"error":{"code":"InvalidAuthenticationToken","message":"IDX14100: JWT is not well formed, there are no dots (.).\nThe token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.","innerError":{"date":"2025-03-31T09:10:15","request-id":"e8b9090a-6c1d-46d3-9b58-27ef68852085","client-request-id":"e8b9090a-6c1d-46d3-9b58-27ef68852085"}}}
+2025-03-31 10:10:15,801 - UserProvisioningTool - ERROR - Error al obtener roles de Business Central: 400 - {"error": {"code": "RequestDataInvalid","message": "Request data is invalid."}}
+2025-03-31 10:10:16,047 - UserProvisioningTool - ERROR - Error al obtener licencias disponibles: 401 - {"error":{"code":"InvalidAuthenticationToken","message":"IDX14100: JWT is not well formed, there are no dots (.).\nThe token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.","innerError":{"date":"2025-03-31T09:10:16","request-id":"a4ebf7ca-1c08-450b-a29a-3355974568f3","client-request-id":"a4ebf7ca-1c08-450b-a29a-3355974568f3"}}}
+2025-03-31 10:10:54,143 - UserProvisioningTool - ERROR - Error al obtener usuarios de Azure AD: 401 - {"error":{"code":"InvalidAuthenticationToken","message":"IDX14100: JWT is not well formed, there are no dots (.).\nThe token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.","innerError":{"date":"2025-03-31T09:10:54","request-id":"6a63558c-2338-454e-9bec-dd1c43f046a2","client-request-id":"6a63558c-2338-454e-9bec-dd1c43f046a2"}}}
+2025-03-31 10:18:42,104 - main - INFO - Iniciando aplicación de Provisión de Usuarios
+2025-03-31 10:18:42,105 - UserProvisioningTool - INFO - Configuración cargada desde archivo local
+2025-03-31 10:18:43,222 - UserProvisioningTool - ERROR - Error al obtener usuarios de Azure AD: 401 - {"error":{"code":"InvalidAuthenticationToken","message":"IDX14100: JWT is not well formed, there are no dots (.).\nThe token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.","innerError":{"date":"2025-03-31T09:18:43","request-id":"c6f120bd-6d1a-4a23-9778-4bedee979c1c","client-request-id":"c6f120bd-6d1a-4a23-9778-4bedee979c1c"}}}
+2025-03-31 10:18:43,226 - UserProvisioningTool - ERROR - Error al obtener roles de Business Central: 400 - {"error": {"code": "RequestDataInvalid","message": "Request data is invalid."}}
+2025-03-31 10:18:43,460 - UserProvisioningTool - ERROR - Error al obtener licencias disponibles: 401 - {"error":{"code":"InvalidAuthenticationToken","message":"IDX14100: JWT is not well formed, there are no dots (.).\nThe token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.","innerError":{"date":"2025-03-31T09:18:43","request-id":"1d682250-9e60-41ee-a550-4c4908e1a580","client-request-id":"1d682250-9e60-41ee-a550-4c4908e1a580"}}}
